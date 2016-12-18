@@ -1,0 +1,18 @@
+.bg-1 {
+    position: fixed;
+    width: 340px;
+    height: 280px;
+    top: 40%;
+    left: 50%;
+    margin-top: -140px;
+    margin-left: -170px;
+    background: #fff;
+    border-radius: 3px;
+}
+
+img {
+    display: block;
+    margin: 0 auto;
+    width: 30%;
+}
+
