@@ -20,7 +20,7 @@ if(isset($_POST['submit'])) {
 
         if($user == $loguser && $pass == $passuser) {
             $_SESSION['logged_user'] = $loguser;
-            header("location:panel.html");
+            header("location:panel.php");
         }
     }
 

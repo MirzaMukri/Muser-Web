@@ -2,7 +2,7 @@
     include('login.php');
 
     if(isset($_SESSION['logged_user'])) {
-        header("location:panel.html");
+        header("location:panel.php");
     }
 ?>
 <!DOCTYPE html>
