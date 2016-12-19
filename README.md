@@ -12,4 +12,9 @@ Go to settings.php -> changed everything that you need -> upload it! You are now
 
 Download: https://github.com/MirzaMukri/Muser-Web/archive/master.zip
 
+Demo: https://mukri.xyz/wip/muser/
+
+User: admin
+Password: password
+
 Enjoy!
