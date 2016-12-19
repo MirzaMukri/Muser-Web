@@ -35,8 +35,8 @@ include "settings.php";
         <div class="collapse navbar-collapse" id="navcol">
             <ul class="nav navbar-nav">
                 <li><a href="panel.php"><strong><i class="fa fa-home"></i> Home</strong></a></li>
-                <li><a href="/players"><strong><i class="fa fa-check"></i> Players</strong></a></li>
-                <li><a href="/recent"><strong><i class="fa fa-book"></i> Updates</strong></a></li>
+                <li><a href="#"><strong><i class="fa fa-check"></i> Players</strong></a></li>
+                <li><a href="#"><strong><i class="fa fa-book"></i> Updates</strong></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <a href="#" class="btn btn-danger btn-lg"><i class="fa fa-info"></i> Muser v1.0</a>
@@ -66,34 +66,42 @@ include "settings.php";
                 <div class="panel-body">
                     <?php
                         if(!empty($_GET['ignadd'])) {
-                            $addIgn = $_GET['ignadd'];
-                            $query24 = htmlspecialchars($addIgn);
-                            $query25 = mysql_real_escape_string($query24);
 
                             $con = mysqli_connect($sqlIp, $sqlUser, $sqlPass, $sqlTable);
                             $db = mysqli_select_db($con, $sqlTable);
 
-                            $query = mysqli_query($con, "SELECT * FROM Muser WHERE user='".$query25."'");
+                            $addIgn = $_GET['ignadd'];
+                            $query24 = htmlspecialchars($addIgn);
+                            $query25 = mysqli_real_escape_string($con, $query24);
+                            $igna = preg_replace('/\s+/', '', $query25);
+
+                            $query = mysqli_query($con, "SELECT * FROM Muser WHERE user='".$igna."'");
                             $numrows = mysqli_num_rows($query);
 
-                            if($numrows == 0) {
-                                $idQuery = mysqli_query($con, "SELECT MAX(id) FROM Muser");
-                                $row = mysqli_fetch_row($idQuery);
-                                $highestid = $row[0] + 1;
-
-                                $addQuery = "INSERT INTO Muser (id, user) VALUES ('".$highestid."','".$query25."')";
-
-                                if(mysqli_query($con, $addQuery)) {
-                                    echo "You added ".$query25." to your database!";
+                            if($igna != '') {
+                                if(strlen($igna) > 16) {
+                                    echo "Players name should not be more than 16 letters!<br><hr><a href='panel.php' class='btn btn-danger btn-lg'>Reset</a>";
                                 } else {
-                                    echo "Error: ".mysqli_error($con);
+                                    if($numrows == 0) {
+                                        $idQuery = mysqli_query($con, "SELECT MAX(id) FROM Muser");
+                                        $row = mysqli_fetch_row($idQuery);
+                                        $highestid = $row[0] + 1;
+
+                                        $addQuery = "INSERT INTO Muser (id, user) VALUES ('".$highestid."','".$igna."')";
+
+                                        if(mysqli_query($con, $addQuery)) {
+                                            echo "You added ".$igna." to your database!<br><hr><a href='panel.php' class='btn btn-danger btn-lg'>Reset</a>";
+                                        } else {
+                                        echo "Error: ".mysqli_error($con);
+                                        }
+                                    } else {
+                                        echo "Player already exist on the database! <br><hr><a href='panel.php' class='btn btn-danger btn-lg'>Reset</a>";
+                                    }
+                                    mysqli_close($con);
                                 }
-
                             } else {
-                                echo "Player already exist on the database!";
+                                echo "Players name should not be empty!<br><hr><a href='panel.php' class='btn btn-danger btn-lg'>Reset</a>";
                             }
-                            mysqli_close($con);
-
                         } else {
                             echo "<form method='get' action='panel.php'><div class='form-group'><label>Username</label><input type='text' class='form-control' name='ignadd' id='ignadd'></div><p><i>*Player name are case sensitive!</i></p><input type='submit' class='btn btn-danger' value='Add Player'></form>";
                         }
@@ -133,29 +141,37 @@ include "settings.php";
                     <?php
                         if(!empty($_GET['ignrem'])) {
 
-                            $removedIgn = $_GET['ignrem'];
-                            $query24 = htmlspecialchars($removedIgn);
-                            $query25 = mysql_real_escape_string($query24);
-
                             $con = mysqli_connect($sqlIp, $sqlUser, $sqlPass, $sqlTable);
                             $db = mysqli_select_db($con, $sqlTable);
 
-                            $query = mysqli_query($con, "SELECT * FROM Muser WHERE user='".$query25."'");
+                            $removedIgn = $_GET['ignrem'];
+                            $query24 = htmlspecialchars($removedIgn);
+                            $query25 = mysqli_real_escape_string($con, $query24);
+                            $ignr = preg_replace('/\s+/', '', $query25);
+
+                            $query = mysqli_query($con, "SELECT * FROM Muser WHERE user='".$ignr."'");
                             $numrows = mysqli_num_rows($query);
 
-                            if($numrows == 0) {
-                                echo "Player does not exists";
-                            } else {
-                                $removeQuery = "DELETE FROM Muser WHERE user='".$query25."'";
-
-                                if(mysqli_query($con, $removeQuery)) {
-                                    echo "You successfully removed ".$query25." from the database!";
+                            if($ignr != '') {
+                                if(strlen($ignr) > 16) {
+                                    echo "Players name should not be more than 16 letters!<br><hr><a href='panel.php' class='btn btn-danger btn-lg'>Reset</a>";
                                 } else {
-                                    echo "Error: ".mysqli_error($con);
-                                }
-                            }
-                            mysqli_close($con);
+                                    if($numrows == 0) {
+                                        echo "Player does not exists <br><hr><a href='panel.php' class='btn btn-danger btn-lg'>Reset</a>";
+                                    } else {
+                                        $removeQuery = "DELETE FROM Muser WHERE user='".$ignr."'";
 
+                                        if(mysqli_query($con, $removeQuery)) {
+                                            echo "You successfully removed ".$ignr." from the database! <br><hr><a href='panel.php' class='btn btn-danger btn-lg'>Reset</a>";
+                                        } else {
+                                        echo "Error: ".mysqli_error($con);
+                                        }
+                                    }
+                                    mysqli_close($con);
+                                }
+                            } else {
+                                echo "Players name should not be empty!<br><hr><a href='panel.php' class='btn btn-danger btn-lg'>Reset</a>";
+                            }
                         } else {
                             echo "<form method='get' action='panel.php'><div class='form-group'><label>Username</label><input type='text' class='form-control' name='ignrem' id='ignrem'></div><p><i>*Player name are case sensitive!</i></p><input type='submit' class='btn btn-danger' value='Remove Player'></form>";
                         }

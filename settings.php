@@ -5,10 +5,10 @@
     Change everything that you need! So you will be able to connect to your db etc...
 */
 
-$sqlIp = "localhost";
-$sqlUser = "root";
+$sqlIp = "";
+$sqlUser = "";
 $sqlPass = "";
-$sqlTable = "Doom";
+$sqlTable = "";
 
 $loguser = "admin";
 $passuser = "password";
