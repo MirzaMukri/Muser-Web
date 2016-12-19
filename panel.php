@@ -26,13 +26,13 @@ include "settings.php";
 <nav class="navbar navbar-default">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#col">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navcol">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
         </div>
-        <div class="collapse navbar-collapse" id="col">
+        <div class="collapse navbar-collapse" id="navcol">
             <ul class="nav navbar-nav">
                 <li><a href="panel.php"><strong><i class="fa fa-home"></i> Home</strong></a></li>
                 <li><a href="/players"><strong><i class="fa fa-check"></i> Players</strong></a></li>
@@ -166,6 +166,9 @@ include "settings.php";
         </div>
     </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="https:///maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 </body>
 </html>
