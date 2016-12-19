@@ -65,10 +65,37 @@ include "settings.php";
                 <div class="panel-heading"><h1 style="text-align: center;">Add Players</h1></div>
                 <div class="panel-body">
                     <?php
-                        if(!empty($_GET['ign'])) {
-                            echo "ADD PLAYER HERE";
+                        if(!empty($_GET['ignadd'])) {
+                            $addIgn = $_GET['ignadd'];
+                            $query24 = htmlspecialchars($addIgn);
+                            $query25 = mysql_real_escape_string($query24);
+
+                            $con = mysqli_connect($sqlIp, $sqlUser, $sqlPass, $sqlTable);
+                            $db = mysqli_select_db($con, $sqlTable);
+
+                            $query = mysqli_query($con, "SELECT * FROM Muser WHERE user='".$query25."'");
+                            $numrows = mysqli_num_rows($query);
+
+                            if($numrows == 0) {
+                                $idQuery = mysqli_query($con, "SELECT MAX(id) FROM Muser");
+                                $row = mysqli_fetch_row($idQuery);
+                                $highestid = $row[0] + 1;
+
+                                $addQuery = "INSERT INTO Muser (id, user) VALUES ('".$highestid."','".$query25."')";
+
+                                if(mysqli_query($con, $addQuery)) {
+                                    echo "You added ".$query25." to your database!";
+                                } else {
+                                    echo "Error: ".mysqli_error($con);
+                                }
+
+                            } else {
+                                echo "Player already exist on the database!";
+                            }
+                            mysqli_close($con);
+
                         } else {
-                            echo "<form method='get' action='panel.php'><div class='form-group'><label>Username</label><input type='text' class='form-control' name='ign' id='ign'></div><p><i>*Player name are case sensitive!</i></p><input type='submit' class='btn btn-danger' value='Add Player'></form>";
+                            echo "<form method='get' action='panel.php'><div class='form-group'><label>Username</label><input type='text' class='form-control' name='ignadd' id='ignadd'></div><p><i>*Player name are case sensitive!</i></p><input type='submit' class='btn btn-danger' value='Add Player'></form>";
                         }
 
                     ?>
@@ -104,26 +131,33 @@ include "settings.php";
                 <div class="panel-heading"><h1 style="text-align: center;">Remove Players</h1></div>
                 <div class="panel-body">
                     <?php
-                        if(!empty($_GET['ignr'])) {
-                            $removedIgn = $_GET['ignr'];
-                            echo "REMOVE PLAYER HERE".$_GET['ignr'];
+                        if(!empty($_GET['ignrem'])) {
+
+                            $removedIgn = $_GET['ignrem'];
+                            $query24 = htmlspecialchars($removedIgn);
+                            $query25 = mysql_real_escape_string($query24);
 
                             $con = mysqli_connect($sqlIp, $sqlUser, $sqlPass, $sqlTable);
                             $db = mysqli_select_db($con, $sqlTable);
 
-                            $query = mysqli_query($con, "SELECT * FROM Muser WHERE user='".$removedIgn."'");
+                            $query = mysqli_query($con, "SELECT * FROM Muser WHERE user='".$query25."'");
                             $numrows = mysqli_num_rows($query);
 
                             if($numrows == 0) {
-                                echo "Not exists";
+                                echo "Player does not exists";
                             } else {
-                                echo "Exists";
+                                $removeQuery = "DELETE FROM Muser WHERE user='".$query25."'";
+
+                                if(mysqli_query($con, $removeQuery)) {
+                                    echo "You successfully removed ".$query25." from the database!";
+                                } else {
+                                    echo "Error: ".mysqli_error($con);
+                                }
                             }
-
-
+                            mysqli_close($con);
 
                         } else {
-                            echo "<form method='get' action='panel.php'><div class='form-group'><label>Username</label><input type='text' class='form-control' name='ignr' id='ignr'></div><p><i>*Player name are case sensitive!</i></p><input type='submit' class='btn btn-danger' value='Remove Player'></form>";
+                            echo "<form method='get' action='panel.php'><div class='form-group'><label>Username</label><input type='text' class='form-control' name='ignrem' id='ignrem'></div><p><i>*Player name are case sensitive!</i></p><input type='submit' class='btn btn-danger' value='Remove Player'></form>";
                         }
 
                     ?>
