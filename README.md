@@ -14,7 +14,7 @@ Download: https://github.com/MirzaMukri/Muser-Web/archive/master.zip
 
 Demo: https://mukri.xyz/wip/muser/
 
-User: admin
+User: admin |
 Password: password
 
 Enjoy!
